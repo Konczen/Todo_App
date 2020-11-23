@@ -20,6 +20,10 @@ class MyState extends ChangeNotifier {
 
   List<OneTask> get list => _list;
 
+  String _startOption = 'All';
+
+  String get startOption => _startOption;
+
   void addTask(OneTask task) {
     _list.add(task);
     notifyListeners();
@@ -36,12 +40,8 @@ class MyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<OneTask> filterList(String options) {
-    if (options == "Done") {
-      return _list.where((task) => task.value == true).toList();
-    } else if (options == "Undone") {
-      return _list.where((task) => task.value == false).toList();
-    }
-    return _list;
+  void setFilterBy(String startOption) {
+    this._startOption = startOption;
+    notifyListeners();
   }
 }

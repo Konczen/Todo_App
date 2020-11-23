@@ -5,25 +5,17 @@ import 'AddView.dart';
 import 'ToDoList.dart';
 import 'model.dart';
 
-class Mainview extends StatefulWidget {
-  @override
-  _MainviewState createState() => _MainviewState();
-}
-
-class _MainviewState extends State<Mainview> {
-  final List<String> options = ['All', 'Done', 'Undone'];
-  String startOption = 'All';
-
+class Mainview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _myAppBar(),
+      appBar: _myAppBar(context),
       body: Center(
         child: Consumer<MyState>(
           builder: (context, state, child) =>
-              ToDoList(state.filterList(startOption)),
+              ToDoList(_filterList(state.list, state.startOption),
         ),
-      ),
+      )),
       floatingActionButton: _addViewButton(context),
     );
   }
@@ -45,7 +37,7 @@ class _MainviewState extends State<Mainview> {
     );
   }
 
-  Widget _myAppBar() {
+  Widget _myAppBar(context) {
     return AppBar(
         centerTitle: true,
         title: Text(
@@ -53,17 +45,17 @@ class _MainviewState extends State<Mainview> {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
-          _popup(),
+          _popup(context),
         ],
       );
   }
 
-  Widget _popup() {
+  final List<String> options = ['All', 'Done', 'Undone'];
+
+  Widget _popup(context) {
     return PopupMenuButton<String>(
-      onSelected: (String value) {
-        setState(() {
-          startOption = value;
-        });
+      onSelected: (value) {
+        Provider.of<MyState>(context, listen: false).setFilterBy(value);
       },
       itemBuilder: (BuildContext context) {
         return options.map((options) =>
@@ -75,5 +67,14 @@ class _MainviewState extends State<Mainview> {
         color: Colors.black,
       ),
     );
+  }
+  
+    List<OneTask> _filterList(list, options) {
+    if (options == "Done") {
+      return list.where((task) => task.value == true).toList();
+    } else if (options == "Undone") {
+      return list.where((task) => task.value == false).toList();
+    }
+    return list;
   }
 }
