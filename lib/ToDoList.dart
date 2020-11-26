@@ -29,13 +29,13 @@ Widget _item(context, OneTask task) {
       value: task.value,
       onChanged: (bool newVal) {
         var state = Provider.of<MyState>(context, listen: false);
-        state.checkbox(task);
+        state.checkbox(task, newVal);
       },
       secondary: IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
           var state = Provider.of<MyState>(context, listen: false);
-          state.removeItem(task);
+          state.removeTask(task);
         },
       ),
     ),

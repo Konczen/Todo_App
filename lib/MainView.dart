@@ -55,7 +55,7 @@ class Mainview extends StatelessWidget {
   Widget _popup(context) {
     return PopupMenuButton<String>(
       onSelected: (value) {
-        Provider.of<MyState>(context, listen: false).setFilterBy(value);
+        Provider.of<MyState>(context, listen: false).chooseFilterBy(value);
       },
       itemBuilder: (BuildContext context) {
         return options.map((options) =>
