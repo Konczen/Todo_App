@@ -22,14 +22,6 @@ class OneTask {
       value: json['done'],
     );
   }
-
-  void check(OneTask task) {
-    if (this.value == false) {
-      this.value = true;
-    } else {
-      this.value = false;
-    }
-  }
 }
 
 class MyState extends ChangeNotifier {
